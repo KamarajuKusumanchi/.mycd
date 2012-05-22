@@ -3,9 +3,6 @@ function mycd()
     tmpDir="$PWD"
     echo "#"`date +%s`" $USER -> $@"  >> "$HISTFILE"
     
-    #a lifelong bash history
-    history >> ~/Dropbox/work/forever
-    
     builtin cd "$@" # do actual cd                                                                        
     
     #if this directory is writable then write to directory-based history file
