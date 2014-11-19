@@ -1,14 +1,17 @@
 function mycd()
 {
-    tmpDir="$PWD"
-    echo "#"`date +%s`" $USER -> $@"  >> "$HISTFILE"
-    
-    builtin cd "$@" # do actual cd                                                                        
-    
     #if this directory is writable then write to directory-based history file
     #otherwise write history in the usual home-based history file                    
-    touch "$PWD/.dir_bash_history" 2>/dev/null && export HISTFILE="$PWD/.dir_bash_history" || export HISTFILE="$HOME/.bash_history";
-    echo "#"`date +%s`" $USER <- $OLDPWD" >> "$HISTFILE"
+    tmpDir=$PWD
+    echo "#"`date '+%s'` >> $HISTFILE
+    echo $USER' has exited '$PWD' for '$@ >> $HISTFILE
+    builtin cd "$@" # do actual cd
+    if [ -w $PWD ]; then export HISTFILE="$PWD/.dir_bash_history"; touch $HISTFILE; chmod --silent 777 $HISTFILE;
+    else export HISTFILE="$HOME/.bash_history";
+    fi
+    echo "#"`date '+%s'` >> $HISTFILE
+    echo $USER' has entered '$PWD' from '$OLDPWD >> $HISTFILE
+
 }
 alias cd="mycd"
 #initial shell opened                                                                                     
