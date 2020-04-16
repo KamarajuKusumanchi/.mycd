@@ -12,7 +12,7 @@ cat << 'EOF' >> ~/.bash_profile
 
 #------------------------------------------------------------------------------
 # Store bash history per directory.
-# Overrides cd by mycd.
+# Overrides 'cd' by 'mycd'. This might lead to some funky behavior.
 # See: https://github.com/KamarajuKusumanchi/.mycd
 test -f ~/.mycd/mycd.sh && . ~/.mycd/mycd.sh
 #------------------------------------------------------------------------------
