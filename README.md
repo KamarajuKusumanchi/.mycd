@@ -1,6 +1,6 @@
 Per directory bash history.
 
-This was derived from https://gist.github.com/leipzig/1651133
+This was derived from `https://gist.github.com/leipzig/1651133`
 
 Installation
 
