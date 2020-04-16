@@ -7,7 +7,17 @@ Installation
 ```bash
 cd ~
 git clone https://github.com/KamarajuKusumanchi/.mycd.git
-echo '. $HOME/.mycd/mycd.sh' >> ~/.bash_profile
+
+cat << 'EOF' >> ~/.bash_profile
+#------------------------------------------------------------------------------
+# mycd
+# store bash history per directory.
+# Overrides cd.
+# See https://github.com/KamarajuKusumanchi/.mycd
+. $HOME.mycd/mycd.sh
+#------------------------------------------------------------------------------
+EOF
+
 source ~/.bash_profile
 
 # ignore the history files in git
