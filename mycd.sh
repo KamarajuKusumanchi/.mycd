@@ -5,6 +5,8 @@ function mycd()
     tmpDir=$PWD
     # echo "#"`date '+%s'` >> $HISTFILE
     # echo $USER' has exited '$PWD' for '$@ >> $HISTFILE
+    echo "cd $@" >> $HISTFILE
+    # echo "appending cd command to $HISTFILE"
     builtin cd "$@" # do actual cd
     if [ -w $PWD ]; then
         export HISTFILE="$PWD/.dir_bash_history"; touch $HISTFILE;
@@ -16,7 +18,10 @@ function mycd()
     # echo $USER' has entered '$PWD' from '$OLDPWD >> $HISTFILE
 
 }
-alias cd="mycd"
+
+# Todo:- Have to test this for cases where the directory name has spaces in it.
+# Comment out the alias until then.
+# alias cd="mycd"
 #initial shell opened                                                                                     
 export HISTFILE="$PWD/.dir_bash_history"
 #timestamp all history entries                                                                            
@@ -31,5 +36,4 @@ shopt -s histappend ## append, no clearouts
 
 ## Save the history after each command finishes
 ## (and keep any existing PROMPT_COMMAND settings)
-# # Do not like this as the up arrow will show commands from other shells
-# export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
+export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
