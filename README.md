@@ -14,7 +14,9 @@ cat << 'EOF' >> ~/.bash_profile
 # Store bash history per directory.
 # Overrides cd by mycd.
 # See: https://github.com/KamarajuKusumanchi/.mycd
-. $HOME.mycd/mycd.sh
+if [ -f $HOME.mycd/mycd.sh]; then
+    . $HOME.mycd/mycd.sh
+fi
 #------------------------------------------------------------------------------
 EOF
 
