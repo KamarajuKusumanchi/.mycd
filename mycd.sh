@@ -1,39 +1,37 @@
 function mycd()
 {
-    #if this directory is writable then write to directory-based history file
-    #otherwise write history in the usual home-based history file                    
-    tmpDir=$PWD
-    # echo "#"`date '+%s'` >> $HISTFILE
-    # echo $USER' has exited '$PWD' for '$@ >> $HISTFILE
-    echo "cd $@" >> $HISTFILE
-    # echo "appending cd command to $HISTFILE"
-    builtin cd "$@" # do actual cd
-    if [ -w $PWD ]; then
-        export HISTFILE="$PWD/.dir_bash_history"; touch $HISTFILE;
-        # chmod --silent 777 $HISTFILE;
-    else
-        export HISTFILE="$HOME/.bash_history";
-    fi
-    # echo "#"`date '+%s'` >> $HISTFILE
-    # echo $USER' has entered '$PWD' from '$OLDPWD >> $HISTFILE
+    # set -x
 
+    # By default, the cd command is logged into the new history file.
+    # But I want it in the old history file (for ctrl-r purposes).
+    # As a work around, log it in the current history file.
+    # Todo:- Is there a better way to achieve this?
+    echo "cd $@" >> $HISTFILE
+    builtin cd "$@" # do the actual cd
+    # If the new directory is writable then write the history into a file under
+    # it otherwise use $HOME
+    if [ -w "$PWD" ]; then
+        export HISTFILE="$PWD/.dir_bash_history"
+    else
+        export HISTFILE="$HOME/.dir_bash_history"
+    fi
+    # set +x
 }
 
-# Todo:- Have to test this for cases where the directory name has spaces in it.
-# Comment out the alias until then.
-# alias cd="mycd"
-#initial shell opened                                                                                     
+alias cd="mycd"
+#initial shell opened
 export HISTFILE="$PWD/.dir_bash_history"
-#timestamp all history entries                                                                            
-# export HISTTIMEFORMAT="%h/%d - %H:%M:%S "
+
 # prevent duplicate entries of a single session from being saved to $HISTFILE.
 export HISTCONTROL=ignoredups:erasedups
 export HISTSIZE=1000000
 export HISTFILESIZE=1000000
-shopt -s histappend ## append, no clearouts                                                               
-# shopt -s histverify ## edit a recalled history line before executing
-# shopt -s histreedit ## reedit a history substitution line if it failed
-
-## Save the history after each command finishes
-## (and keep any existing PROMPT_COMMAND settings)
+shopt -s histappend # append, no clearouts
+# Save the history after each command finishes
+# (and keep any existing PROMPT_COMMAND settings)
 export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
+
+# Note:- Overtime the HISTFILE may be "bloated" as the ignoredups and erasedups
+# options only remove successive duplicates. To remove duplicates anywhere in
+# the history but preserve the order, run
+# tac $HISTFILE | awk '! x[$0]++' | tac > /tmp/tmpfile && "mv" -fv /tmp/tmpfile $HISTFILE
