@@ -11,10 +11,9 @@ git clone https://github.com/KamarajuKusumanchi/.mycd.git
 cat << 'EOF' >> ~/.bash_profile
 
 #------------------------------------------------------------------------------
-# mycd
-# store bash history per directory.
-# Overrides cd.
-# See https://github.com/KamarajuKusumanchi/.mycd
+# Store bash history per directory.
+# Overrides cd by mycd.
+# See: https://github.com/KamarajuKusumanchi/.mycd
 . $HOME.mycd/mycd.sh
 #------------------------------------------------------------------------------
 EOF
