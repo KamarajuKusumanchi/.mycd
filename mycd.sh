@@ -6,7 +6,7 @@ function mycd()
     # But I want it in the old history file (for ctrl-r purposes).
     # As a work around, log it in the current history file.
     # Todo:- Is there a better way to achieve this?
-    echo "cd $@" >> $HISTFILE
+    echo "cd $@" >> "$HISTFILE"
     builtin cd "$@" # do the actual cd
     # If the new directory is writable then write the history into a file under
     # it otherwise use $HOME
