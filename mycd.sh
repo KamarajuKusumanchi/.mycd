@@ -31,7 +31,7 @@ shopt -s histappend # append, no clearouts
 # (and keep any existing PROMPT_COMMAND settings)
 export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 
-# Note:- Overtime the HISTFILE may be "bloated" as the ignoredups and erasedups
+# Note:- Over time the HISTFILE may be "bloated" as the ignoredups and erasedups
 # options only remove successive duplicates. To remove duplicates anywhere in
 # the history but preserve the order, run
 # tac $HISTFILE | awk '! x[$0]++' | tac > /tmp/tmpfile && "mv" -fv /tmp/tmpfile $HISTFILE
