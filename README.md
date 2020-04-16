@@ -9,6 +9,7 @@ cd ~
 git clone https://github.com/KamarajuKusumanchi/.mycd.git
 
 cat << 'EOF' >> ~/.bash_profile
+
 #------------------------------------------------------------------------------
 # mycd
 # store bash history per directory.
