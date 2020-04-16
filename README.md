@@ -1,4 +1,4 @@
-Per directory bash history.
+Store bash history per directory.
 
 This was derived from `https://gist.github.com/leipzig/1651133`
 
