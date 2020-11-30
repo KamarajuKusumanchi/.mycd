@@ -31,9 +31,12 @@ shopt -s histappend # append, no clearouts
 # (and keep any existing PROMPT_COMMAND settings)
 export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 
-# Note:- Over time the HISTFILE may be "bloated" as the ignoredups and
-# erasedups options only remove successive duplicates. To remove duplicates
-# anywhere in the history but preserve the order, run
-# tac $HISTFILE | awk '! x[$0]++' | tac > /tmp/tmpfile && "mv" -fv /tmp/tmpfile $HISTFILE
-#
-# Adapted from https://unix.stackexchange.com/questions/48713/how-can-i-remove-duplicates-in-my-bash-history-preserving-order
+# Notes
+# 1) Over time the HISTFILE may be "bloated" as the ignoredups and erasedups
+# options only remove successive duplicates. To remove duplicates anywhere in
+# the history but preserve the order, run
+#   prune_history.sh
+# 2) For new directories, we might want to "pre populate" history from a master
+# file. To do that run
+#   populate_history.sh
+#  It uses $HOME/.dir_bash_history as the master history file.
