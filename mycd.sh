@@ -15,6 +15,21 @@ function mycd()
     else
         export HISTFILE="$HOME/.dir_bash_history"
     fi
+
+    # Clean up the HISTFILE at a particular minute.
+    current_minute=`date +'%M'`
+    clean_up_minute=15
+    if [ "$current_minute" -eq "$clean_up_minute" ];
+    then
+        echo "cleaning up $HISTFILE"
+        echo "number of lines before: $(wc -l $HISTFILE | cut -f 1 -d ' ')"
+        # Here we remove the duplicates and only store the latest.
+        # The command is adapted from
+        # https://unix.stackexchange.com/questions/48713/how-can-i-remove-duplicates-in-my-bash-history-preserving-order
+        # You can also run it manually whenever the HISTFILE becomes "bloated".
+        tac $HISTFILE | awk '! x[$0]++' | tac > /tmp/tmpfile && "mv" -f /tmp/tmpfile $HISTFILE
+        echo "number of lines after: $(wc -l $HISTFILE | cut -f 1 -d ' ')"
+    fi
     # set +x
 }
 
