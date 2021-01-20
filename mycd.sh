@@ -18,8 +18,10 @@ function mycd()
 
     # Clean up the HISTFILE at a particular minute.
     current_minute=`date +'%M'`
-    clean_up_minute=15
-    if [ "$current_minute" -eq "$clean_up_minute" ];
+    clean_up_start_minute=40
+    clean_up_end_minute=50
+    if (( $current_minute >= $clean_up_start_minute )) &&
+       (( $current_minute < $clean_up_end_minute )) ;
     then
         echo "cleaning up $HISTFILE"
         echo "number of lines before: $(wc -l $HISTFILE | cut -f 1 -d ' ')"
