@@ -40,7 +40,7 @@ function mycd()
     # The following optional flags may follow '%':
     #
     #   -  (hyphen) do not pad the field
-    current_minute=`date +'%M'`
+    current_minute=`date +'%-M'`
     clean_up_start_minute=40
     clean_up_end_minute=50
     if (( $current_minute >= $clean_up_start_minute )) &&
