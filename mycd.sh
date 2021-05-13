@@ -16,7 +16,30 @@ function mycd()
         export HISTFILE="$HOME/.dir_bash_history"
     fi
 
-    # Clean up the HISTFILE at a particular minute.
+    # Clean up the HISTFILE in a given "minute range".
+    # The idea here is to get the current minute and then check if that falls
+    # in a given range.
+    #
+    # In the date command, I am using '%-M' to get the current minute instead
+    # of '%M' so that the result is not padded by 0. We do not want the minute
+    # value to start with zero since then it will be interpreted as an octal
+    # number while doing number comparison. If the current minute is 08, it will
+    # lead to errors such as
+    #
+    # bash: ((: 08: value too great for base (error token is "08")
+    #
+    # The reason for this error and a possible fix is given in
+    # https://stackoverflow.com/questions/24777597/value-too-great-for-base-error-token-is-08
+    #
+    # But I decided to modify the date command itself to keep the downstream
+    # code simple.
+    #
+    # Relevant lines from 'date --help'
+    #
+    # By default, date pads numeric fields with zeroes.
+    # The following optional flags may follow '%':
+    #
+    #   -  (hyphen) do not pad the field
     current_minute=`date +'%M'`
     clean_up_start_minute=40
     clean_up_end_minute=50
