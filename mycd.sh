@@ -8,12 +8,26 @@ function mycd()
     # Todo:- Is there a better way to achieve this?
     echo "cd $@" >> "$HISTFILE"
     builtin cd "$@" # do the actual cd
-    # If the new directory is writable then write the history into a file under
-    # it otherwise use $HOME
-    if [ -w "$PWD" ]; then
-        export HISTFILE="$PWD/.dir_bash_history"
+
+    terminal_type=`uname -s | cut -f 1 -d '-'`
+    if [ "$terminal_type" = "MINGW64_NT" ]; then
+        # using git bash.
+	# here the usual [ -w "$PWD" ] , to check if the directory is
+        # writable is not working. so, do it the hard way.
+        touch $PWD/.dir_bash_history > /dev/null 2>&1
+        if [ $? -eq 0 ]; then
+            export HISTFILE="$PWD/.dir_bash_history"
+        else
+            export HISTFILE="$HOME/.dir_bash_history"
+        fi
     else
-        export HISTFILE="$HOME/.dir_bash_history"
+        # If the new directory is writable then write the history into a file under
+        # it otherwise use $HOME
+        if [ -w "$PWD" ]; then
+            export HISTFILE="$PWD/.dir_bash_history"
+        else
+            export HISTFILE="$HOME/.dir_bash_history"
+        fi
     fi
 
     # Clean up the HISTFILE in a given "minute range".
