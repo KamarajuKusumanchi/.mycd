@@ -2,6 +2,9 @@
 
 # script to merge two bash history files and remove duplicates using history
 # command.
+# spec:
+#   * The history files might have multiline commands with heredocs. They need
+#     to be handled.
 # usage: $github/.mycd/populate_history_v2.sh
 
 set -eu
