@@ -32,13 +32,15 @@ history -c
 # Read the master history
 if [ -s "$MASTER_HISTORY" ]; then
   history -r "$MASTER_HISTORY"
-  echo "Read $(wc -l < "$MASTER_HISTORY") lines from $MASTER_HISTORY."
+  #  echo "Read $(wc -l < "$MASTER_HISTORY") lines from $MASTER_HISTORY."
+  echo "Read $(wc -l < "$MASTER_HISTORY") lines from master history file."
 fi
 
 # Read local history
 if [ -s "$LOCAL_HISTORY" ]; then
   history -r "$LOCAL_HISTORY"
-  echo "Read $(wc -l < "$LOCAL_HISTORY") lines from $LOCAL_HISTORY."
+  # echo "Read $(wc -l < "$LOCAL_HISTORY") lines from $LOCAL_HISTORY."
+  echo "Read $(wc -l < "$LOCAL_HISTORY") lines from local history file."
 fi
 
 # Write the merged history
@@ -49,5 +51,7 @@ history -w "$TEMP_FILE"
 tac "$TEMP_FILE" | awk '! seen[$0]++' | tac > "$LOCAL_HISTORY"
 
 rm -f "$TEMP_FILE"
-echo "Prepended $LOCAL_HISTORY with $MASTER_HISTORY and removed duplicates while preserving order."
-echo "$LOCAL_HISTORY now has $(wc -l < "$LOCAL_HISTORY") lines."
+#echo "Prepended $LOCAL_HISTORY with $MASTER_HISTORY and removed duplicates while preserving order."
+echo "Prepended local history file with master history and removed duplicates while preserving order."
+#echo "$LOCAL_HISTORY now has $(wc -l < "$LOCAL_HISTORY") lines."
+echo "Local history file now has $(wc -l < "$LOCAL_HISTORY") lines."
