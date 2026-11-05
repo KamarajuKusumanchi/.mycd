@@ -4,9 +4,19 @@ function mycd()
 
     # By default, the cd command is logged into the new history file.
     # But I want it in the old history file (for ctrl-r purposes).
-    # As a work around, log it in the current history file.
-    # Todo:- Is there a better way to achieve this?
-    echo "cd $@" >> "$HISTFILE"
+    #
+    # Initially, I tried to work around it by doing
+    #   echo "cd $@" >> "$HISTFILE"
+    # but commands such as
+    #   cd $foo
+    # were getting stored as
+    #   cd bar
+    # where the environment variable foo is set to bar.
+    # The following will log it as
+    #   cd $foo
+    # in the old history file.
+    history -a
+
     builtin cd "$@" # do the actual cd
 
     terminal_type=`uname -s | cut -f 1 -d '-'`
